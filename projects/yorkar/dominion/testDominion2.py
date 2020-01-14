@@ -11,15 +11,15 @@ from collections import defaultdict
 import testUtility as tu
 
 #Get player names
-player_names = tu.define_player_names() # moved into testUtility
+#player_names = tu.define_player_names() # moved into testUtility
+# Bug introduced where the only player is 'Annie'. This will allow the game to
+#   continue to run, but it defies the rule of the game because there need to
+#   be two or more players.
+player_names = ["Annie"] 
 
 #number of curses and victory cards
 nV = tu.calculate_nV(player_names) # moved into testUtility
-#nC = tu.calculate_nC(player_names) # moved into testUtility
-# Bug introduced where the number of curses is set to 0 at the start of the game
-#   This will not crash the game, but because curses are always added to the
-#   play area it will make the game end sooner (they count as an empty stack)
-nC = 0
+nC = tu.calculate_nC(player_names) # moved into testUtility
 
 #Define box
 box = tu.create_box(nV) # moved into testUtility
