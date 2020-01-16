@@ -23,7 +23,10 @@ def calculate_nV(player_names):
 def calculate_nC(player_names):
     return -10 + 10 * len(player_names)
 
-def create_box(nV):
+# creates the box variable. This holds all of the cards that can possibly be
+#   put into a game. This does not include treasure, curse, or victory points
+def create_box(player_names):
+    nV = calculate_nV(player_names)
     box = {}
     box["Woodcutter"]=[Dominion.Woodcutter()]*10
     box["Smithy"]=[Dominion.Smithy()]*10
@@ -61,23 +64,30 @@ def define_supply_order():
                 5:['Duchy','Market','Council Room','Festival','Laboratory','Library','Mine','Witch'],
                 6:['Gold','Adventurer'],8:['Province']}
 
+# Randomly pulls 10 different card stacks from the box to use in the game.
+#   the value returned becomes the supply
 def pull_cards_from_box(box):
     boxlist = [k for k in box]
     random.shuffle(boxlist)
     random10 = boxlist[:10]
     return defaultdict(list,[(k,box[k]) for k in random10])
 
-def add_standard_treasure(supply, player_names):
+# Adds the standard treasure, victory point, and curse cards to the supply
+def add_standard_treasure_vp_curses(supply, player_names):
+    nV = calculate_nV(player_names)
+    nC = calculate_nC(player_names)
+    # add the treasure
     supply["Copper"]=[Dominion.Copper()]*(60-len(player_names)*7)
     supply["Silver"]=[Dominion.Silver()]*40
     supply["Gold"]=[Dominion.Gold()]*30
-
-def add_standard_victory_points_and_curses(supply, nV, nC):
+    # add the victory points
     supply["Estate"]=[Dominion.Estate()]*nV
     supply["Duchy"]=[Dominion.Duchy()]*nV
     supply["Province"]=[Dominion.Province()]*nV
+    # add the curses
     supply["Curse"]=[Dominion.Curse()]*nC
 
+# Creates the player objects so they can be used to play the game
 def construct_players(player_names):
     players = []
     for name in player_names:

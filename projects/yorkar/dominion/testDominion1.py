@@ -13,16 +13,8 @@ import testUtility as tu
 #Get player names
 player_names = tu.define_player_names() # moved into testUtility
 
-#number of curses and victory cards
-nV = tu.calculate_nV(player_names) # moved into testUtility
-#nC = tu.calculate_nC(player_names) # moved into testUtility
-# Bug introduced where the number of curses is set to 0 at the start of the game
-#   This will not crash the game, but because curses are always added to the
-#   play area it will make the game end sooner (they count as an empty stack)
-nC = 0
-
 #Define box
-box = tu.create_box(nV) # moved into testUtility
+box = tu.create_box([]) # moved into testUtility
 
 #Define supply order
 supply_order = tu.define_supply_order() # moved into testUtility
@@ -31,8 +23,11 @@ supply_order = tu.define_supply_order() # moved into testUtility
 supply = tu.pull_cards_from_box(box) # moved into testUtility
 
 #The supply always has these cards
-tu.add_standard_treasure(supply, player_names) # moved into testUtility
-tu.add_standard_victory_points_and_curses(supply, nV, nC) # moved into testUtility
+# pass an empty array into the function below so when it initializes the
+#   number of gardens it will always put 8, no matter how many people are
+#   playing. This won't crash the program but it goes against the rules of the
+#   game.
+tu.add_standard_treasure_vp_curses(supply, []) # moved into testUtility
 
 #initialize the trash
 trash = []

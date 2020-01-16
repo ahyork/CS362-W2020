@@ -12,17 +12,13 @@ import testUtility as tu
 
 #Get player names
 #player_names = tu.define_player_names() # moved into testUtility
-# Bug introduced where the only player is 'Annie'. This will allow the game to
-#   continue to run, but it defies the rule of the game because there need to
-#   be two or more players.
-player_names = ["Annie"] 
-
-#number of curses and victory cards
-nV = tu.calculate_nV(player_names) # moved into testUtility
-nC = tu.calculate_nC(player_names) # moved into testUtility
+# bug introduced where there are 10 players. This breaks the game because it
+#   means there will be -10 copper in the supply. This won't break the game
+# The game is meant for 2-4 people, so this should not be allowed.
+player_names = ["A", "*B", "*C", "*D", "*E", "*F", "*G", "*H", "*I", "*J"]
 
 #Define box
-box = tu.create_box(nV) # moved into testUtility
+box = tu.create_box(player_names) # moved into testUtility
 
 #Define supply order
 supply_order = tu.define_supply_order() # moved into testUtility
@@ -31,8 +27,7 @@ supply_order = tu.define_supply_order() # moved into testUtility
 supply = tu.pull_cards_from_box(box) # moved into testUtility
 
 #The supply always has these cards
-tu.add_standard_treasure(supply, player_names) # moved into testUtility
-tu.add_standard_victory_points_and_curses(supply, nV, nC) # moved into testUtility
+tu.add_standard_treasure_vp_curses(supply, player_names) # moved into testUtility
 
 #initialize the trash
 trash = []
